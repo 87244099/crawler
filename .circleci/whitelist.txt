@@ -1,3 +1,5 @@
-src/main/java/com/github/hcsp/io/*
-pom.xml
+src/main/java/
+.gitignore
+LICENSE
 README.md
+pom.xml
