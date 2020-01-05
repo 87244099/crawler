@@ -68,7 +68,7 @@ public class Main {
         });
     }
 
-    private static Document getDocument(String url){
+    private static Document getDocument(String url)throws Exception{
         System.out.println(url);
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
