@@ -9,31 +9,31 @@ import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
-import javax.print.Doc;
-import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         List<String> urls = new LinkedList<>();
-        urls.add("https://sina.cn/index/feed?from=touch&Ver=10");//不能带空格。。。。
+        urls.add("https://sina.cn/index/feed?from=touch&Ver=10"); //不能带空格。。。。
         Set<String> processedUrls = new HashSet<>();
         while (true){
-            if(urls.isEmpty()){
+            if (urls.isEmpty()){
                 break;
             }
 
             String url = urls.remove(0);
             //过滤不感兴趣的连接
-            if(!url.contains("sina.cn")){//javascript:;
+            if (!url.contains("sina.cn")){//javascript:;
                 continue;
             }
             //记录已经爬取的链接
             processedUrls.add(url);
 
-            if(url.startsWith("//")){
+            if (url.startsWith("//")){
                 url = "https:"+url;
             }
 
@@ -62,7 +62,7 @@ public class Main {
         List<Element> articles = document.select("article");
         articles.forEach(article->{
             Element title =  article.selectFirst(".art_tit_h1");
-            if(title!=null){
+            if (title!=null){
                 System.out.println(title.text());
             }
         });
@@ -73,7 +73,7 @@ public class Main {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         String html = "";
-        try(CloseableHttpResponse response1 = httpclient.execute(httpGet)) {
+        try (CloseableHttpResponse response1 = httpclient.execute(httpGet)) {
             System.out.println(response1.getStatusLine());
             HttpEntity entity1 = response1.getEntity();
             html = (EntityUtils.toString(entity1));
