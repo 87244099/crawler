@@ -1,0 +1,1 @@
+insert into LINKS_TO_BE_PROCESS  (link) values ('https://sina.cn/index/feed?from=touch&Ver=10');
