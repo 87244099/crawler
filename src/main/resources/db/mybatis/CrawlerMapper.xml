@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.hcsp.CrawlerMapper">
+    <select id="selectNextUrl" resultType="String">
+        select link from LINKS_TO_BE_PROCESS limit 1
+    </select>
+    <delete id="deleteUrl" parameterType="String">
+        delete from LINKS_TO_BE_PROCESS where link=#{link}
+    </delete>
+    <insert id="insertNew" parameterType="com.github.hcsp.io.News">
+        insert into NEWS (title, content, url, created_at, modified_at) values(#{title}, #{content}, #{url}, now(), now())
+    </insert>
+
+    <insert id="insertNewUrl" parameterType="String">
+        insert into LINKS_TO_BE_PROCESS (link) values(#{link})
+    </insert>
+    <insert id="insertProcessedUrl" parameterType="String">
+        insert into LINKS_ALREADY_PROCESSED (link) values(#{link})
+    </insert>
+
+    <select id="selectProcessedUrl" parameterType="String" resultType="String">
+        select link from LINKS_TO_BE_PROCESS where link=#{link} limit 1
+    </select>
+
+
+</mapper>
