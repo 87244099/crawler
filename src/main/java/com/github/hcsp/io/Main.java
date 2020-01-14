@@ -11,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +22,10 @@ public class Main {
     public static void main(String[] args) throws Exception {
         CrawlerDao crawlerDao = null;
         try {
+            crawlerDao = new MybatisCrawlerDao();
 
-            crawlerDao = new CrawlerDao("jdbc:h2:file:C:\\Users\\Administrator\\Desktop\\crawler\\crawlernews", "root", "123456");
-            String url; //example "https://sina.cn/index/feed?from=touch&Ver=10"
-            while ((url = crawlerDao.getNextUrlThenDelete())!=null){
+            String url = null;
+            while ((url = getNextUrlThenDelete(crawlerDao))!=null){
 
                 System.out.println("url="+url);
 
@@ -38,7 +39,7 @@ public class Main {
                 }
 
                 //记录已经爬取的链接
-                crawlerDao.insertUrlIntoDatabase( url, "insert into LINKS_ALREADY_PROCESSED (link) values(?)");
+                crawlerDao.insertProcessedUrl(url);
 
                 if (url.startsWith("//")){
                     url = "https:"+url;
@@ -53,7 +54,7 @@ public class Main {
                     if (!isInterestedUrl(documentUrl)){
                         continue;
                     }
-                    crawlerDao.insertUrlIntoDatabase(documentUrl, "insert into LINKS_TO_BE_PROCESS (link) values(?)");
+                    crawlerDao.insertNewUrl(documentUrl);
                 }
 
             }
@@ -112,8 +113,21 @@ public class Main {
             info.put("url", url);
 
             if (!"".equals(title) || !"".equals(content)){
-                crawlerDao.insertNew(info);
+                try {
+                    crawlerDao.insertNew(info);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
+    }
+
+    public static String getNextUrlThenDelete(CrawlerDao crawlerDao) throws SQLException {
+        String url = crawlerDao.getNextUrl();
+        if (url != null){
+            crawlerDao.deleteUrl(url);
+        }
+
+        return url;
     }
 }
