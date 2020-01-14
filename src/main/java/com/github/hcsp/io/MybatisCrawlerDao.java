@@ -7,21 +7,15 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 public class MybatisCrawlerDao implements CrawlerDao {
 
-    private Connection connection;
     private SqlSessionFactory sqlSessionFactory;
 
     MybatisCrawlerDao() throws SQLException, IOException {
-        String file = "jdbc:h2:file:C:\\Users\\Administrator\\Desktop\\crawler\\crawlernews";
-        String username = "root";
-        String password = "123456";
-        connection = DriverManager.getConnection(file, username, password);
 
         String resource = "db/mybatis/config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -29,7 +23,6 @@ public class MybatisCrawlerDao implements CrawlerDao {
     }
 
     public void close() throws SQLException {
-        connection.close();
     }
 
 

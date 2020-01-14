@@ -1,12 +1,19 @@
 package com.github.hcsp.io;
 
-import java.sql.*;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class JdbcCrawlerDao implements CrawlerDao {
     private Connection connection;
+    @SuppressFBWarnings("DMI_CONSTANT_DB_PASSWORD")
     JdbcCrawlerDao() throws SQLException {
         String file = "jdbc:h2:file:C:\\Users\\Administrator\\Desktop\\crawler\\crawlernews";
         String username = "root";
