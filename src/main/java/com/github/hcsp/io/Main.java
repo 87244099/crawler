@@ -30,7 +30,7 @@ public class Main {
 
                 System.out.println("url="+url);
 
-                if(!isUrlToBeProcess(crawlerDao, url)){
+                if (!isUrlToBeProcess(crawlerDao, url)){
                     continue;
                 }
 
@@ -45,7 +45,7 @@ public class Main {
                 for (String documentUrl : documentUrls){
                     documentUrl = fixUrl(documentUrl);
 
-                    if(!isUrlToBeProcess(crawlerDao, documentUrl)){
+                    if (!isUrlToBeProcess(crawlerDao, documentUrl)){
                         continue;
                     }
                     crawlerDao.insertNewUrl(documentUrl);
@@ -60,7 +60,7 @@ public class Main {
 
     }
 
-    public static boolean isUrlToBeProcess(CrawlerDao crawlerDao , String url) throws SQLException {
+    public static boolean isUrlToBeProcess(CrawlerDao crawlerDao, String url) throws SQLException {
         if (!isInterestedUrl(url)){
             return false;
         }
@@ -70,7 +70,7 @@ public class Main {
             return false;
         }
 
-        if(crawlerDao.isToBeProcessUrlExist(url)){
+        if (crawlerDao.isToBeProcessUrlExist(url)){
            return false;
         }
 
