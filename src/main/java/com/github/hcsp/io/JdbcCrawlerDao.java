@@ -25,6 +25,19 @@ public class JdbcCrawlerDao implements CrawlerDao {
         connection.close();
     }
 
+    public boolean isToBeProcessUrlExist(String url) throws SQLException {
+
+        String sql = "select * from LINKS_TO_BE_PROCESS where link=? limit 1";
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, url);
+            try (ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public  String getNextUrl() throws SQLException {
         String url = null;

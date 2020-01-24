@@ -58,7 +58,7 @@ public class MybatisCrawlerDao implements CrawlerDao {
 
     public  boolean isUrlProcessed(String url) throws SQLException {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            return session.selectOne("com.github.hcsp.CrawlerMapper.insertProcessedUrl", url) != null;
+            return session.selectOne("com.github.hcsp.CrawlerMapper.selectProcessedUrl", url) != null;
         }
     }
 
@@ -70,6 +70,12 @@ public class MybatisCrawlerDao implements CrawlerDao {
     public void insertNewUrl(String url) throws SQLException {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
             session.insert("com.github.hcsp.CrawlerMapper.insertNewUrl", url);
+        }
+    }
+
+    public boolean isToBeProcessUrlExist(String url){
+        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+            return session.selectOne("com.github.hcsp.CrawlerMapper.selectToBeProcessUrl", url) != null;
         }
     }
 }
