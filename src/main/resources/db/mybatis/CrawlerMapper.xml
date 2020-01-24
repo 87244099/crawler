@@ -21,6 +21,9 @@
     </insert>
 
     <select id="selectProcessedUrl" parameterType="String" resultType="String">
+        select link from LINKS_ALREADY_PROCESSED where link=#{link} limit 1
+    </select>
+    <select id="selectToBeProcessUrl" parameterType="String" resultType="String">
         select link from LINKS_TO_BE_PROCESS where link=#{link} limit 1
     </select>
 

@@ -59,6 +59,11 @@
             <artifactId>mybatis</artifactId>
             <version>3.5.3</version>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.18</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -100,7 +105,6 @@
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <version>3.1.12.2</version>
                 <dependencies>
-                    <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
                     <dependency>
                         <groupId>com.github.spotbugs</groupId>
                         <artifactId>spotbugs</artifactId>
@@ -122,7 +126,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>6.1.4</version>
                 <configuration>
-                    <url>jdbc:h2:file:C:\Users\Administrator\Desktop\crawler\crawlernews</url>
+                    <url>jdbc:mysql://192.168.99.100:3306/crawlernews?characterEncoding=utf-8</url>
                     <user>root</user>
                     <password>123456</password>
                 </configuration>

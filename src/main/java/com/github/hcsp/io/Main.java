@@ -26,24 +26,16 @@ public class Main {
 
             String url = null;
             while ((url = getNextUrlThenDelete(crawlerDao))!=null){
+                url = fixUrl(url);
 
                 System.out.println("url="+url);
 
-                if (!isInterestedUrl(url)){
-                    continue;
-                }
-
-                //过滤掉已经爬取的链接
-                if (crawlerDao.isUrlProcessed(url)){
+                if(!isUrlToBeProcess(crawlerDao, url)){
                     continue;
                 }
 
                 //记录已经爬取的链接
                 crawlerDao.insertProcessedUrl(url);
-
-                if (url.startsWith("//")){
-                    url = "https:"+url;
-                }
 
                 Document document = getDocument(url);
 
@@ -51,7 +43,9 @@ public class Main {
 
                 List<String> documentUrls = getUrls(document);
                 for (String documentUrl : documentUrls){
-                    if (!isInterestedUrl(documentUrl)){
+                    documentUrl = fixUrl(documentUrl);
+
+                    if(!isUrlToBeProcess(crawlerDao, documentUrl)){
                         continue;
                     }
                     crawlerDao.insertNewUrl(documentUrl);
@@ -64,6 +58,30 @@ public class Main {
             }
         }
 
+    }
+
+    public static boolean isUrlToBeProcess(CrawlerDao crawlerDao , String url) throws SQLException {
+        if (!isInterestedUrl(url)){
+            return false;
+        }
+
+        //过滤掉已经爬取的链接
+        if (crawlerDao.isUrlProcessed(url)){
+            return false;
+        }
+
+        if(crawlerDao.isToBeProcessUrlExist(url)){
+           return false;
+        }
+
+        return true;
+    }
+
+    private static String fixUrl(String url){
+        if (url.startsWith("//")){
+            url = "https:"+url;
+        }
+        return url;
     }
 
     private static boolean isInterestedUrl(String url){
