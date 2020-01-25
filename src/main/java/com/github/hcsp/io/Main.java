@@ -12,7 +12,6 @@ public class Main {
     static final int count = 8;
     @SuppressFBWarnings("DMI_CONSTANT_DB_PASSWORD")
     public static void main(String[] args) throws Exception {
-
         ExecutorService executorService = Executors.newFixedThreadPool(count);
         List<Future<Integer>> list = new ArrayList<>();
         CrawlerDao crawlerDao = new MybatisCrawlerDao();
