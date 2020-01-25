@@ -11,7 +11,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -82,7 +81,7 @@ public class Crawler{
         if (url.startsWith("//")){
             url = "https:"+url;
         }
-        url = encodeUrl(url);//特殊的链接是无法请求的：http://mobile.sina.cn/?pos=1&vt=1&ttp=f1|2|1
+        url = encodeUrl(url); //特殊的链接是无法请求的：http://mobile.sina.cn/?pos=1&vt=1&ttp=f1|2|1
         return url;
     }
 
@@ -90,21 +89,21 @@ public class Crawler{
 
 
         String[] parts = url.split("\\?");
-        if(parts!=null && parts.length>1){
+        if (parts!=null && parts.length>1){
             String main = parts[0];
             String queryAndHash = parts[1];
             String[] queryAndHashParts = queryAndHash.split("#");
-            if(queryAndHashParts!=null){
+            if (queryAndHashParts!=null){
                 String query = queryAndHashParts[0];
                 String[] queryParts = query.split("&");
-                if(queryParts!=null && queryParts.length>0){
+                if (queryParts!=null && queryParts.length>0){
                     List<String> partList = new ArrayList<String>();
-                    for(String queryPart : queryParts){
+                    for (String queryPart : queryParts){
                         String[] keyValueArray = queryPart.split("=");
                         String key = keyValueArray[0];
 
                         queryPart = key;
-                        if(keyValueArray.length>1){
+                        if (keyValueArray.length>1){
                             String value = keyValueArray[1];
                             queryPart = key + "=" + URLEncoder.encode(value, "UTF-8");
                         }
@@ -113,9 +112,9 @@ public class Crawler{
 
                     query = String.join("&", partList);
                 }
-                if(queryAndHashParts.length>1){
+                if (queryAndHashParts.length>1){
                     queryAndHash = query + "#" + queryAndHashParts[1];
-                }else{
+                }else {
                     queryAndHash = query;
                 }
             }

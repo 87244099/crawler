@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.PreparedStatement;
 import java.time.Instant;
 import java.util.List;
 import java.util.Random;
@@ -29,7 +28,7 @@ public class MysqlMockDataGenerator {
                 List<News> newsList = session.selectList("com.github.hcsp.MockDataMapper.selectTopNews");
                 int count = total - newsList.size();
                 Random random = new Random();
-                while(count-- > 0){
+                while (count-- > 0){
                     int index = random.nextInt(newsList.size()-1);
                     News news = newsList.get(index);
                     news.setModified_at(Instant.now());
@@ -37,8 +36,8 @@ public class MysqlMockDataGenerator {
                     session.insert("com.github.hcsp.MockDataMapper.insertNew", news);
 
                     System.out.println("left:"+count);
-                    if( count%20000==0 ){
-                        session.flushStatements();//自动提交
+                    if ( count%20000==0 ){
+                        session.flushStatements(); //自动提交
                     }
                 }
                 session.commit();
