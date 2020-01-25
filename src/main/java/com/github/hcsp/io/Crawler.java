@@ -154,7 +154,9 @@ public class Crawler{
         try (CloseableHttpResponse response1 = httpclient.execute(httpGet)) {
             System.out.println(response1.getStatusLine());
             HttpEntity entity1 = response1.getEntity();
-            html = (EntityUtils.toString(entity1));
+            if ( entity1 !=null ){//实体可能不存在
+                html = (EntityUtils.toString(entity1));
+            }
             return Jsoup.parse(html);
         }
     }
@@ -167,6 +169,8 @@ public class Crawler{
 
             String title = titleElem == null ? "": titleElem.text();
             String content = contentElem == null ? "": contentElem.text();
+            content = content.substring(0, Math.min(content.length(), 40));
+
             Map<String, String> info = new HashMap<String, String>();
             info.put("title", title);
             info.put("content", content);

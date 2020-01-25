@@ -23,7 +23,7 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class Main {
-    static final int count = 4;
+    static final int count = 8;
     @SuppressFBWarnings("DMI_CONSTANT_DB_PASSWORD")
     public static void main(String[] args) throws Exception {
 
