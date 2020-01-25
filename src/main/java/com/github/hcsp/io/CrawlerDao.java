@@ -8,10 +8,7 @@ interface CrawlerDao extends AutoCloseable {
 
     int deleteUrl(String url) throws SQLException;
 
-
     void insertNew(Map<String, String> info)  throws SQLException;
-
-    void insertUrlIntoDatabase(String url, String sql)  throws SQLException;
 
     boolean isUrlProcessed(String url)  throws SQLException;
 

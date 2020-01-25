@@ -16,5 +16,6 @@
     </environments>
     <mappers>
         <mapper resource="db/mybatis/CrawlerMapper.xml"/>
+        <mapper resource="db/mybatis/MockDataMapper.xml"/>
     </mappers>
 </configuration>
